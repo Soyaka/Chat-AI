@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import ChatsList from './ChatsList'
 import Content from './Content'
+import { ChosenChatProvider } from './ChosenChat.context'
 import { ListChats } from '../API/main'
+
+
+
+
+
 
 const Container = () => {
     const [chats, setChats] = useState([])
@@ -24,10 +30,12 @@ const Container = () => {
     console.log(chats)
 
     return (
-        <div>
-            <ChatsList chats={chats} />
-            <Content />
-        </div>
+        <ChosenChatProvider>
+            <div>
+                <ChatsList Chats={chats} />
+                <Content  />
+            </div>
+        </ChosenChatProvider>
     )
 }
 
