@@ -8,12 +8,12 @@ import { v4 as uuidv4 } from 'uuid';
 export async function ListChats(){
     try {
         const chats = await databases.listDocuments(import.meta.env.VITE_DATABASE_ID, import.meta.env.VITE_COLECTION_ID_CHATS)
-        const lats = chats.documents.map(chat =>({
-            name : chat.name,
-            id: chat.$id,
-            createdAt : chat.$createdAt
-        }))
-        return lats
+        // const lats = chats.documents.map(chat =>({
+        //     name : chat.name,
+        //     id: chat.$id,
+        //     createdAt : chat.$createdAt
+        // }))
+        return chats
         
     } catch (error) {
         return error
