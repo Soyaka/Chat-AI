@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
+    "@supabase/auth-ui-react": "^0.4.6",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.39.0",
     "appwrite": "^13.0.1",
     "axois": "^0.0.1-security",
     "dotenv": "^16.3.1",
@@ -19,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.0",
+    "redux": "^5.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

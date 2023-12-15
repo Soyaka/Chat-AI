@@ -1,42 +1,49 @@
-import React, { useEffect, useState} from 'react'
-import ChatsList from './ChatsList'
-import Content from './Content'
-import { ChosenChatProvider } from './ChosenChat.context'
-import { ListChats } from '../API/main'
-
-
-
-
+// Container.jsx
+import React, { useEffect, useState } from 'react';
+import ChatsList from './ChatsList';
+import Content from './Content';
+import { ListChats } from '../API/main';
+import { useSelector, useDispatch } from 'react-redux';
+import {SetChats} from './Actions'
 
 
 const Container = () => {
-    const [chats, setChats] = useState([])
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-        const getData = async () => {
-            const data = await ListChats()
-            const chatsInfo = await data.documents.map(chat => ({
-                chatID: chat.$id,
-                createdAt: chat.$createdAt,
-                name: chat.name,
-                messages: chat.messages
-            }))
-            setChats(chatsInfo)
-        }
+    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await ListChats();
+        const chatsInfo = data.documents.map((chat) => ({
+          chatID: chat.$id,
+          createdAt: chat.$createdAt,
+          name: chat.name,
+          messages: chat.messages,
+        }));
+        dispatch(SetChats(chatsInfo))
 
-        getData()
-    }, [])
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    console.log(chats)
+    getData();
+  }, []);
 
-    return (
-        <ChosenChatProvider>
-            <div>
-                <ChatsList Chats={chats} />
-                <Content  />
-            </div>
-        </ChosenChatProvider>
-    )
-}
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-export default Container
+  return (
+    
+      <div>
+        <ChatsList />
+        <Content/>
+      </div>
+  );
+};
+
+export default Container;
