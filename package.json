@@ -25,6 +25,7 @@
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.0",
     "redux": "^5.0.0",
+    "typeahead-standalone": "^4.23.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

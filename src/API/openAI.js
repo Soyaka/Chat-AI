@@ -10,46 +10,56 @@ const openai = new OpenAI({apiKey: API_KEY,
 
 
 
-async function GetData(chatID){
-  try {
-    const res = await GetchatMesssages(chatID)
-    const NetRes = res?.map(message => ({
-        role: message.role,
-        content: message.content
-    })
-    )
-    return NetRes
-  } catch (error) {
-    return error
-  }
-}
+// async function GetData(chatID){
+//   try {
+//     const res = await GetchatMesssages(chatID)
+//     const NetRes = res?.map(message => ({
+//         role: message.role,
+//         content: message.content
+//     })
+//     )
+//     return NetRes
+//   } catch (error) {
+//     return error
+//   }
+// }
 
 
- async function GetCompletionGBT(chatID) {
-  const messages = await GetData(chatID)
+//  async function GetCompletionGBT(chatID) {
+//   const messages = await GetData(chatID)
+//     const completion = await openai.chat.completions.create({
+//       messages,
+//       model: "gpt-3.5-turbo",
+//     });
+//     return(completion.choices[0].message);
+//   }
+
+
+
+//  export  async function AddSystemMsg(chatID){
+//     try {
+//       const load = await GetCompletionGBT(chatID)
+//       const payload = {
+//         ...load,
+//         "chatID" : chatID
+//       }
+
+//       await CreateDocumentMessage(payload)
+//       return payload
+//     } catch (error) {
+//       return error
+//     }
+    
+//   }
+
+
+
+
+
+export async function GetCompletionGBT(messages) {
     const completion = await openai.chat.completions.create({
       messages,
       model: "gpt-3.5-turbo",
     });
     return(completion.choices[0].message);
   }
-
-
-
- export  async function AddSystemMsg(chatID){
-    try {
-      const load = await GetCompletionGBT(chatID)
-      const payload = {
-        ...load,
-        "chatID" : chatID
-      }
-
-      await CreateDocumentMessage(payload)
-      return payload
-    } catch (error) {
-      return error
-    }
-    
-  }
-
-
