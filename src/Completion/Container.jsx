@@ -5,7 +5,7 @@ import Content from './Content';
 import { ListChats } from '../API/main';
 import { useSelector, useDispatch } from 'react-redux';
 import {SetChats} from './Actions'
-
+import {ScrollShadow} from "@nextui-org/react";
 
 const Container = () => {
     const dispatch = useDispatch()
@@ -39,7 +39,7 @@ const Container = () => {
 
   return (
     
-      <div>
+      <div className='flex flex-row overfloaw-hidden '>
         <ChatsList />
         <Content/>
       </div>
