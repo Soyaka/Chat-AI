@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import {Snippet} from "@nextui-org/react";
 import {CreateDocumentMessage} from '../API/main'
 import Avatar from '../_Ext/Avatar'
+import { ListChats } from '../API/main';
 import {Spinner} from "@nextui-org/react";
 import {GetCompletionGBT} from '../API/openAI'
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,14 +35,21 @@ const Content = () => {
   //#!! Must change  the logic for use efect to some logic that gets the data from database or something else except the chats array
   // the dummy useeffect to obtain data and parse it
   useEffect(() => {
-    if (filtredchats && filtredchats[0]) {
-      const pureMessages = filtredchats[0].messages.map(message =>
-      ({
-        role: message.Role || message.role,
-        content: message.content
+
+    const fetchMessages = async()=>{
+      const data = await ListChats();
+      const body =  data.documents.find(chat => chat.$id ===  chosenChat)
+      const tmp = body.messages
+      const PureMsg = body.messages?.map(msg => ({
+        role: msg.Role || msg.role,
+        content: msg.content
       }))
-      dispatch(SetMessages(pureMessages))
-    }
+      dispatch(SetMessages(PureMsg))
+      console.log("The data is ", tmp)
+    
+    } /// here must add the dipatch to messgaes
+
+    fetchMessages()
   }, [chosenChat])
 
   // Just a function to handle submited data for submition !! must add when the input area is empty Security leaks
@@ -91,6 +99,7 @@ const Content = () => {
               :
               <div key={i} className='flex flex-row gap-2 '>
                 <Avatar role={msg.Role} />
+                   
                 <Snippet hideSymbol={true} className='w-fit' variant="shadow" size="lg" color="danger">
                   <p className='w-[px] whitespace-normal' > {msg.content}</p>
                 </Snippet>
