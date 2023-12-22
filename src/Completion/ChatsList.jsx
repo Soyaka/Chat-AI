@@ -21,7 +21,7 @@ const ChatsList = () => {
     dispatch(ChangeChat(choseNchat))
 
   }
-
+    
   return (
     <div className='flex flex-col bg-black p-2 laptop:w-[20%] desktop:w-[20%] h-screen pt-6 relative resize-x'>
       <div className='text-white p-4  w-[90%] bg-black top-0 right-0 ' > new chat</div>
