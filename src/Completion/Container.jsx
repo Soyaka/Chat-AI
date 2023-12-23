@@ -5,6 +5,7 @@ import Content from './Content';
 import { ListChats } from '../API/main';
 import { useSelector, useDispatch } from 'react-redux';
 import {SetChats} from './Actions'
+import Form from './Form';
 import {ScrollShadow} from "@nextui-org/react";
 
 const Container = () => {
@@ -39,9 +40,10 @@ const Container = () => {
 
   return (
     
-      <div className='flex flex-row overfloaw-hidden '>
-        <ChatsList />
+      <div className='👺'>
+        <ChatsList/>
         <Content/>
+        <Form/>
       </div>
   );
 };
