@@ -15,7 +15,7 @@ const Content = () => {
   const [inputContent, setInputContent] = useState('');
   const chosenChat = useSelector((state) => state.CSNChat);
   const reduxMessages = useSelector((state) => state.messages);
-
+  
   const fetchMessages = async () => {
     const data = await ListChats();
     const body = data.documents.find(chat => chat.$id === chosenChat);
@@ -35,9 +35,9 @@ const Content = () => {
     reduxMessages ? (
       <div className='😍'>
         {reduxMessages.map((msg, i) => (
-          <div key={i * i * i} className='p-1 rounded m-1 '>
+          <div key={i * i * i} className='p-1 rounded m-1  '>
             {msg.Role || msg.role === 'user' ? (
-              <div key={i} className='flex flex-row gap-2 '>
+              <div key={i} className='flex flex-row gap-2 right-0'>
                 <Avatar role={msg.Role || msg.role} />
                 <Snippet hideSymbol={true} className='w-fit  laptop:max-w-[67em]' variant="shadow" size="lg" color="warning">
                   <p className='whitespace-normal'>{msg.content}</p>

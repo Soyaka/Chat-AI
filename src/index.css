@@ -3,21 +3,37 @@
 @tailwind utilities;
 
 
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color:  rgb(115, 115, 115) rgb(56, 56, 56);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: red;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: red;
+  }
 
 .👺 {
     @apply  grid  grid-rows-2 grid-cols-12 grid-flow-col overflow-hidden ;
   }
 
 .😅{
-    @apply   row-span-3 col-span-2 h-screen bg-black p-2
+    @apply   row-span-3 col-span-2 h-screen overflow-y-scroll bg-black p-2 custom-scrollbar
 }
 
 .😋{
-    @apply text-white p-4  w-[90%] bg-black top-0 right-0 
+    @apply text-white p-2  rounded mt-2 mb-16 w-[90%] bg-black cursor-pointer hover:bg-zinc-700
 }
 
 .🤩{
-    @apply  w-[90%] text-slate-200 p-2 my-1 rounded bg-zinc-800 cursor-pointer hover:bg-zinc-700 duration-200 
+    @apply  w-[90%] text-slate-200 p-2 my-1 rounded overflow-hidden bg-zinc-800 cursor-pointer hover:bg-zinc-700 duration-200 
 }
 
 
@@ -26,5 +42,5 @@
 
 
 .😍{
-    @apply  max-h-screen  row-span-2 col-span-10 p-24 overflow-x-hidden overflow-y-scroll /* text-black flex-1  col-span-4 relative overflow-y-scroll right-0 bg-slate-500 pb-28 p-4*/;
+    @apply  max-h-screen  row-span-2 col-span-10 p-24 overflow-x-hidden overflow-y-scroll custom-scrollbar/* text-black flex-1  col-span-4 relative overflow-y-scroll right-0 bg-slate-500 pb-28 p-4*/;
 }
