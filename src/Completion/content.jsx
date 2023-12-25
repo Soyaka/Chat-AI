@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useRef, useEffect, useState } from 'react';
 import { Snippet } from "@nextui-org/react";
+import uniqueID from 'soyaka-id'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Avatar } from '@nextui-org/react';
@@ -10,32 +11,38 @@ import { findFirstWord } from '../../parse';
 import { SetMessages } from './Actions';
 import { FindCode } from '../../parse';
 
+ //OPTIMIZE: Fix the relay  its soo slow
+
 const Content = () => {
+ 
+  const scrollContainerRef = useRef(null);
   const dispatch = useDispatch();
-  const [inputContent, setInputContent] = useState('');
   const chosenChat = useSelector((state) => state.CSNChat);
   const reduxMessages = useSelector((state) => state.messages);
   
-  const fetchMessages = async () => {
-    const data = await ListChats();
-    const body = data.documents.find(chat => chat.$id === chosenChat);
-    const pureMsgs = body.messages?.map(msg => ({
-      role: msg.Role || msg.role,
-      content: msg.content
-    }));
-    dispatch(SetMessages(pureMsgs));
-  };
+
+    const fetchMessages = async () => {
+    try {
+      const { documents } = await ListChats();
+      const { messages } = documents.find((chat) => chat.$id === chosenChat) || {};
+      const pureMsgs = messages?.map(({ Role, role, content }) => ({ role: Role || role, content }));
+      dispatch(SetMessages(pureMsgs));
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  }; 
 
   useEffect(() => {
+    
     fetchMessages();
-  }, [chosenChat]);
+  }, [chosenChat,reduxMessages]);
 
- 
+
   return (
     reduxMessages ? (
-      <div className='😍'>
+      <div ref={scrollContainerRef} className='😍'>
         {reduxMessages.map((msg, i) => (
-          <div key={i * i * i} className='p-1 rounded m-1  '>
+          <div  key={uniqueID()} className='p-1 rounded m-1  '>
             {msg.Role || msg.role === 'user' ? (
               <div key={i} className='flex flex-row gap-2 right-0'>
                 <Avatar role={msg.Role || msg.role} />
@@ -48,9 +55,9 @@ const Content = () => {
                 <Avatar role={msg.Role} />
                 <Snippet hideSymbol={true} className=' w-fit laptop:max-w-[67em] ' variant="shadow" size="lg" color="danger">
                     { FindCode(msg.content).map(obj => obj.normal?
-                       <p className='w-[px] whitespace-normal'>{obj.normal}</p>
+                       <p key={uniqueID()} className='w-[px] whitespace-normal'>{obj.normal}</p>
                     : 
-                    <SyntaxHighlighter className=" laptop:max-w-[55em]" language={findFirstWord(obj.code)} style={dark}>
+                    <SyntaxHighlighter key={uniqueID()} className=" laptop:max-w-[55em]" language={findFirstWord(obj.code)} style={dark}>
                       {obj.code}
                     </SyntaxHighlighter>)}
                 </Snippet>

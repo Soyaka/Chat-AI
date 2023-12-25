@@ -1,7 +1,16 @@
 import React , {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { SetMessages } from './Actions';
+import {CreateDocumentMessage} from '../API/main'
+import {GetCompletionGBT} from '../API/openAI'
+
+//FIXME: the message is lugging 
 
 const Form = () => {
+    const chosenChat = useSelector((state) => state.CSNChat);
     const [inputContent, setInputContent] = useState('');
+    const dispatch = useDispatch();
+    const reduxMessages = useSelector((state) => state.messages);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setInputContent('');
@@ -10,7 +19,7 @@ const Form = () => {
           role: 'user',
           content: inputContent
         };
-    
+        console.log(newMsg)
         CreateDocumentMessage({
           ...newMsg,
           chatID: chosenChat
@@ -24,6 +33,7 @@ const Form = () => {
           ...response,
           chatID: chosenChat
         });
+        console.log(response)
       };
     
   return (
